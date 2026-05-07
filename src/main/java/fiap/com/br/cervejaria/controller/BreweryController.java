@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("breweries")
 @RequiredArgsConstructor
@@ -23,11 +25,7 @@ public class BreweryController {
     @PostMapping
     @Operation(
             summary = "Cria uma nova cervejaria.",
-            description = "Cria uma cervejaria, com suas informações.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "404", description = "Cervejaria não encontrada.")
-            }
+            description = "Cria uma cervejaria, com suas informações."
     )
     public ResponseEntity<BreweryResponse> addBrewery(@RequestBody BreweryRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -37,24 +35,16 @@ public class BreweryController {
     @GetMapping
     @Operation(
             summary = "Lista todas as cervejarias.",
-            description = "Lista todas as cervejarias, com suas informações.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "404", description = "Cervejaria não encontrada.")
-            }
+            description = "Lista todas as cervejarias, com suas informações."
     )
-    public ResponseEntity<Page<BreweryResponse>> findAllBrewery(Pageable pageable) {
-        return ResponseEntity.ok(service.findAll(pageable).map(BreweryResponse::fromEntity));
+    public ResponseEntity<List<BreweryResponse>> findAllBrewery() {
+        return ResponseEntity.ok(service.findAll().stream().map(BreweryResponse::fromEntity).toList());
     }
 
     @GetMapping("{id}")
     @Operation(
             summary = "Lista uma cervejaria.",
-            description = "Lista uma cervejaria e suas informações com base no ID.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "404", description = "Cervejaria não encontrada.")
-            }
+            description = "Lista uma cervejaria e suas informações com base no ID."
     )
     public ResponseEntity<BreweryResponse> findBreweryById(@PathVariable Long id) {
         return ResponseEntity.ok(BreweryResponse.fromEntity(service.findById(id)));
@@ -63,11 +53,7 @@ public class BreweryController {
     @PutMapping("{id}")
     @Operation(
             summary = "Atualiza as informações de uma cervejaria.",
-            description = "Atualiza as informações de uma cervejaria com base no seu ID.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "404", description = "Cervejaria não encontrada.")
-            }
+            description = "Atualiza as informações de uma cervejaria com base no seu ID."
     )
     public ResponseEntity<BreweryResponse> updateBrewery(@PathVariable Long id, @RequestBody BreweryRequest request){
         return ResponseEntity.ok(BreweryResponse.fromEntity(service.update(id, request)));
@@ -76,11 +62,7 @@ public class BreweryController {
     @DeleteMapping("{id}")
     @Operation(
             summary = "Deleta uma cervejaria.",
-            description = "Deleta uma cervejaria com base no seu ID.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "404", description = "Cervejaria não encontrada.")
-            }
+            description = "Deleta uma cervejaria com base no seu ID."
     )
     public ResponseEntity<Void> deleteBrewery(@PathVariable Long id){
         service.delete(id);

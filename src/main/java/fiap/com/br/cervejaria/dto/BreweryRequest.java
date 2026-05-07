@@ -7,6 +7,7 @@ public record BreweryRequest(
         @NotBlank
         String name,
 
+        @NotBlank
         String country
 ) {
     public Brewery toEntity() {

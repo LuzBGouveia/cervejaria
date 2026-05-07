@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BreweryService {
@@ -24,10 +26,11 @@ public class BreweryService {
     }
 
     @Cacheable("breweries")
-    public Page<Brewery> findAll(Pageable pageable) {
-        return breweryRepository.findAll(pageable);
+    public List<Brewery> findAll() {
+        return breweryRepository.findAll();
     }
 
+    @CacheEvict(value = "breweries", allEntries = true)
     public Brewery create(BreweryRequest request) {
         return breweryRepository.save(request.toEntity());
     }

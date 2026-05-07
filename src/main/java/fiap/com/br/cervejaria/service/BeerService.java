@@ -25,8 +25,8 @@ public class BeerService {
     }
 
     @Cacheable("beers")
-    public Page<Beer> findAll(Pageable pageable) {
-        return beerRepository.findAll(pageable);
+    public List<Beer> findAll() {
+        return beerRepository.findAll();
     }
 
     @Cacheable(value = "beers", key = "'brewery-' + #breweryId")
@@ -34,6 +34,7 @@ public class BeerService {
         return beerRepository.findAllByBreweryId(id);
     }
 
+    @CacheEvict(value = "beers", allEntries = true)
     public Beer create(BeerRequest request) {
         return beerRepository.save(request.toEntity());
     }

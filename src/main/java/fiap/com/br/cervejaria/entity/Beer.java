@@ -19,4 +19,13 @@ public class Beer {
     private Long id;
 
     private String name;
+
+    private String description;
+
+    private Double alcoholContent;
+
+    private String harmonization;
+
+    @ManyToOne
+    private Brewery brewery;
 }

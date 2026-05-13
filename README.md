@@ -1,2 +1,2 @@
 # cervejaria
-Repositório do projeto diamante de Java Advanced de cervejaria.
+Repositório do projeto rubi de Java Advanced de cervejaria.
